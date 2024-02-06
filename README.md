@@ -1,1 +1,0 @@
-# s24-Full_Stack_App
