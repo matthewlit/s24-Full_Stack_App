@@ -22,4 +22,3 @@ export const auth = getAuth(app);
 export const database = getFirestore(app);
 export const googleProvider = new GoogleAuthProvider(app).addScope('email');
 export default app;
-

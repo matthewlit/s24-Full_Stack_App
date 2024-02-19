@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Colors from './Colors'
+import Colors from '../library/Colors'
 
 const Content = () => {
   return (
@@ -9,8 +9,9 @@ const Content = () => {
 }
 
 const Contentcontainer = styled.div`
-  background-color: ${Colors.background1};
-  font-size: 5vw;
+  background-color: ${Colors.backgroundDark};
+  color: ${Colors.text};
+  font-size: 10vw;
   margin-left: 17%;
   padding-left: 5%;
   position: fixed;
