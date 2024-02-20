@@ -51,6 +51,7 @@ export default function Profile() {
 
 const Welcome = styled.h1`
   font-size: 3vw;
+  text-align: center;
 `
 
 const StatWrapper = styled.div`

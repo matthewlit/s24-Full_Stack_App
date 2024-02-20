@@ -10,11 +10,11 @@ const inter = Inter({ subsets: ["latin"] });
 const Page = styled.div``
 
 // Recommendations Page
-export default function Recommend() {
+export default function ShowsAndMovies() {
   return (
     <>
       <Head>
-        <title>TVTrackr - Recommendations</title>
+        <title>TVTrackr - Shows and Movies</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/png" href="favicon.png" />
       </Head>

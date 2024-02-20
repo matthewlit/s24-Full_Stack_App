@@ -24,15 +24,13 @@ const Navbar = () => {
             <NavButton active={router.pathname === '/watchList'}>Watch List</NavButton>
           </Link>
           <Link href="/recommend">
-            <NavButton active={router.pathname === '/recommend'}>Recommendations</NavButton>
+            <NavButton active={router.pathname === '/showsAndMovies'}>Shows and Movies</NavButton>
           </Link>
         </NavButtonContainer>
 
         {/* Sign Out Button */}
         <SignOutButtonContainer>
-          <Link href="/">
-              <NavButton active={router.pathname === '/'}>Sign Out</NavButton>
-          </Link>
+          <Link href="/"><NavButton>Sign Out</NavButton></Link>
         </SignOutButtonContainer>
 
     </Container>

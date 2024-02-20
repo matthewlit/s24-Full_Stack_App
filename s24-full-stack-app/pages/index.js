@@ -75,6 +75,7 @@ const SignInLabel = styled.label`
 const SignInInput = styled.input`
   padding: 0.5vw;
   font-size: 1vw;
+  border-radius: 0.5vw;
 `
 
 const SignInButton = styled.button`
