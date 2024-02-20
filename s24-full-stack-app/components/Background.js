@@ -1,14 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
-import Colors from '../library/Colors'
+import React from "react";
+import styled from "styled-components";
+import Colors from "../library/Colors";
 
-const Background = ({children}) => {
-  return (
-    <Container>
-      {children}
-    </Container>
-  )
-}
+const Background = ({ children }) => {
+  return <Container>{children}</Container>;
+};
 
 const Container = styled.div`
   background-color: ${Colors.backgroundLight};
@@ -17,6 +13,6 @@ const Container = styled.div`
   height: 100vh;
   width: 88%;
   overflow: auto;
-`
+`;
 
-export default Background
+export default Background;

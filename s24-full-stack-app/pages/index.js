@@ -1,17 +1,16 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
 import styled from "styled-components";
-import Colors from "@/library/Colors"
-import { useRef } from 'react'
+import Colors from "@/library/Colors";
+import { useRef } from "react";
 import { useStateContext } from "@/context/StateContext";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import ContentContainer from "@/components/ContentContainer";
 
 const inter = Inter({ subsets: ["latin"] });
 
 // Sign In Page
 export default function Home() {
-
   const { setUser } = useStateContext();
   const router = useRouter();
 
@@ -27,13 +26,12 @@ export default function Home() {
     // TODO: SIGN IN
 
     // Check for blank input
-    if (email === "" || password === ""){
+    if (email === "" || password === "") {
       alert("Invalid email or password. Please try again.");
-    }
-    else{
+    } else {
       // Temp navigation to main site for any input
       setUser(email);
-      router.push('/profile');
+      router.push("/profile");
     }
   }
 
@@ -48,14 +46,18 @@ export default function Home() {
       <Page>
         {/* Sign In Form */}
         <ContentContainer>
-          <Logo src="Logo.png"></Logo>
-          <SignInLabel>Email:</SignInLabel>
+          <SignInWrapper>
+            <Logo src="Logo.png"></Logo>
+            <SignInLabel>Email:</SignInLabel>
             <SignInInput type="email" ref={emailRef} />
-          <SignInLabel>Password:</SignInLabel>
+            <SignInLabel>Password:</SignInLabel>
             <SignInInput type="password" ref={passwordRef} />
-          <SignInButton type="submit" onClick={SignIn}>Sign In</SignInButton>
+            <SignInButton type="submit" onClick={SignIn}>
+              Sign In
+            </SignInButton>
+          </SignInWrapper>
         </ContentContainer>
-      </Page>   
+      </Page>
     </>
   );
 }
@@ -66,17 +68,26 @@ const Page = styled.div`
   align-items: center;
   height: 100vh;
   background-color: ${Colors.backgroundLight};
-`
+`;
+
+const SignInWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 const SignInLabel = styled.label`
   font-size: 1.25vw;
-`
+  text-align: center;
+`;
 
 const SignInInput = styled.input`
+  margin: 0.5vw;
   padding: 0.5vw;
   font-size: 1vw;
   border-radius: 0.5vw;
-`
+`;
 
 const SignInButton = styled.button`
   background-color: ${Colors.accentDark};
@@ -90,12 +101,12 @@ const SignInButton = styled.button`
   cursor: pointer;
   border-radius: 0.5vw;
   transition: 0.5s;
-  &:hover{
+  &:hover {
     background-color: ${Colors.accentLight};
   }
-`
+`;
 
 const Logo = styled.img`
   width: 10vw;
   margin: 1vw;
-`
+`;

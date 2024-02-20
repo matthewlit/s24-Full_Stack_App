@@ -1,20 +1,27 @@
-import React from 'react';
-import styled from 'styled-components';
-import Colors from '../library/Colors'
+import React from "react";
+import styled from "styled-components";
+import Colors from "../library/Colors";
+import { useRef } from "react";
 
-const SearchBar = () => {
+const SearchBar = ({ placeholder, onSearch }) => {
+  const serachRef = useRef(null);
+  function Search() {
+    const query = serachRef.current.value;
+    onSearch(query);
+  }
+
   return (
     <Container>
-      <SearchInput type="text" placeholder="Search Shows and Movies..."/>
-      <SearchButton>Search</SearchButton>
+      <SearchInput ref={serachRef} type="text" placeholder={placeholder} />
+      <SearchButton onClick={Search}>Search</SearchButton>
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 
 const SearchInput = styled.input`
   padding: 0.5vw;
@@ -23,7 +30,7 @@ const SearchInput = styled.input`
   border: none;
   width: 75vw;
   margin-right: 1vw;
-`
+`;
 
 const SearchButton = styled.button`
   background-color: ${Colors.accentDark};
@@ -36,9 +43,9 @@ const SearchButton = styled.button`
   cursor: pointer;
   border-radius: 0.5vw;
   transition: 0.5s;
-  &:hover{
+  &:hover {
     background-color: ${Colors.accentLight};
   }
-`
+`;
 
 export default SearchBar;

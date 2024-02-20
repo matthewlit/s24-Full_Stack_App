@@ -1,14 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
-import Colors from '../library/Colors'
+import React from "react";
+import styled from "styled-components";
+import Colors from "../library/Colors";
 
-const ContentContainer = ({children}) => {
-  return (
-    <Container>
-        {children}
-    </Container>
-  )
-}
+const ContentContainer = ({ children }) => {
+  return <Container>{children}</Container>;
+};
 
 const Container = styled.div`
   background-color: ${Colors.secondary};
@@ -19,6 +15,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1vw;
-`
+`;
 
-export default ContentContainer
+export default ContentContainer;

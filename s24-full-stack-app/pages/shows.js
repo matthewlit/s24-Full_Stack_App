@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Image from "next/image";
 import { Inter } from "next/font/google";
 import styled from "styled-components";
 import Navbar from "@/components/Navbar";
@@ -11,29 +12,19 @@ import TVList from "@/components/TVList";
 const inter = Inter({ subsets: ["latin"] });
 const Page = styled.div``;
 
-// Watch List Page
-export default function WatchList() {
-  // **TODO**: Get Users Shows from database
-  let shows = [];
-  shows = [
-    // { id: 1, image: "Logo.png", title: "Show_1" },
-    // { id: 2, image: "Logo.png", title: "Show_2" },
-    // { id: 3, image: "Logo.png", title: "Show_3" },
-  ];
-  let movies = [];
-  movies = [
-    { id: 1, image: "Logo.png", title: "Test_Movie_1" },
-    { id: 2, image: "Logo.png", title: "Test_Movie_2" },
-    { id: 3, image: "Logo.png", title: "Test_Movie_3" },
-  ];
-
+// Recommendations Page
+export default function Shows() {
   // **TODO**: Search function
   const Search = (query) => {};
+
+  // **TODO**: Get Recommendations and search results
+  let searchResults = [];
+  let recommendedShows = [];
 
   return (
     <>
       <Head>
-        <title>TVTrackr - Watch List</title>
+        <title>TVTrackr - Shows</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/png" href="favicon.png" />
       </Head>
@@ -43,17 +34,17 @@ export default function WatchList() {
         <Background>
           <ContentContainer>
             <SearchBar
-              placeholder={"Search your watched shows and movies..."}
+              placeholder={"Search shows by title or genre..."}
               onSearch={Search}
             />
           </ContentContainer>
           <ContentContainer>
-            <Title>Watched Shows:</Title>
-            <TVList data={shows} emptyMessage="Your watchlist is empty!" />
+            <Title>Discover Shows:</Title>
+            <TVList data={searchResults} />
           </ContentContainer>
           <ContentContainer>
-            <Title>Watched Movies:</Title>
-            <TVList data={movies} emptyMessage="Your watchlist is empty!" />
+            <Title>Recommended Shows:</Title>
+            <TVList data={recommendedShows} />
           </ContentContainer>
         </Background>
       </Page>
