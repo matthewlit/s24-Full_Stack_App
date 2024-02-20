@@ -6,7 +6,7 @@ const Context = createContext();
 // Set Context
 export const StateContext = ({ children }) => {
 
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({uid: null, email: "None"});
 
     return (
         <Context.Provider 

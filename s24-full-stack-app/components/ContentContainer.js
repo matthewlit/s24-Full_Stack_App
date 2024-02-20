@@ -15,6 +15,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1vw;
+  box-shadow: 2px 2px 5px ${Colors.accentLight};
 `;
 
 export default ContentContainer;

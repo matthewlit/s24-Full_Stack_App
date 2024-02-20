@@ -3,10 +3,31 @@ import styled from "styled-components";
 import Colors from "../library/Colors";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { auth } from "@/library/firebaseConfig.js";
+import { signOut } from "firebase/auth";
+import { useStateContext } from "@/context/StateContext";
 
 // Nav Bar Component
 const Navbar = () => {
   const router = useRouter();
+
+    const { setUser } = useStateContext();
+
+    // Run when sign out button clicked
+    function SignOut() {
+      // Sign In
+      signOut(auth).then(() => {
+          // Signed out
+          setUser({uid: null, email: "None"});
+          router.push("/");
+        })
+        .catch((error) => {
+          // Handle error
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.error(`Error ${errorCode}: ${errorMessage}`);
+        });
+    }
 
   return (
     <Container>
@@ -37,9 +58,7 @@ const Navbar = () => {
 
       {/* Sign Out Button */}
       <SignOutButtonContainer>
-        <Link href="/">
-          <NavButton>Sign Out</NavButton>
-        </Link>
+          <NavButton onClick={SignOut}>Sign Out</NavButton>
       </SignOutButtonContainer>
     </Container>
   );
@@ -75,6 +94,7 @@ const NavButtonContainer = styled.div`
 const NavButton = styled.button`
   background-color: ${(props) =>
     props.active ? Colors.accentLight : Colors.secondary};
+  box-shadow: 1px 1px 5px ${Colors.accentLight};
   color: ${Colors.text};
   width: 10vw;
   height: 2.5vw;

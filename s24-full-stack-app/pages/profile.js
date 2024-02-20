@@ -34,7 +34,7 @@ export default function Profile() {
         <Background>
           {/* Welcome */}
           <ContentContainer>
-            <Welcome>Welcome, {user}!</Welcome>
+            <Welcome>Welcome, {user.email}!</Welcome>
           </ContentContainer>
           {/* Stats */}
           <StatWrapper>
