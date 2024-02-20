@@ -12,7 +12,7 @@ const Contentcontainer = styled.div`
   background-color: ${Colors.backgroundDark};
   color: ${Colors.text};
   font-size: 10vw;
-  margin-left: 17%;
+  margin-left: 12%;
   padding-left: 5%;
   position: fixed;
   height: 100%;

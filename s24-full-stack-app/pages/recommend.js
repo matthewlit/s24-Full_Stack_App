@@ -7,10 +7,10 @@ import Content from "@/components/Content";
 import Colors from "@/library/Colors"
 
 const inter = Inter({ subsets: ["latin"] });
-
 const Page = styled.div``
 
-export default function Home() {
+// Recommendations Page
+export default function Recommend() {
   return (
     <>
       <Head>
