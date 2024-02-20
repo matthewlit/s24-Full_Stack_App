@@ -1,18 +1,18 @@
 import Head from "next/head";
-import Image from "next/image";
 import { Inter } from "next/font/google";
 import styled from "styled-components";
 import Colors from "@/library/Colors"
-import { useState, useRef } from 'react'
+import { useRef } from 'react'
 import { useStateContext } from "@/context/StateContext";
 import { useRouter } from 'next/router';
+import ContentContainer from "@/components/ContentContainer";
 
 const inter = Inter({ subsets: ["latin"] });
 
 // Sign In Page
 export default function Home() {
 
-  const { user, setUser } = useStateContext();
+  const { setUser } = useStateContext();
   const router = useRouter();
 
   // Input references
@@ -26,9 +26,15 @@ export default function Home() {
 
     // TODO: SIGN IN
 
-    //Temp navigation to main site
-    setUser(email);
-    router.push('/watchList');
+    // Check for blank input
+    if (email === "" || password === ""){
+      alert("Invalid email or password. Please try again.");
+    }
+    else{
+      // Temp navigation to main site for any input
+      setUser(email);
+      router.push('/profile');
+    }
   }
 
   return (
@@ -41,14 +47,14 @@ export default function Home() {
 
       <Page>
         {/* Sign In Form */}
-        <SignInContainer>
+        <ContentContainer>
           <Logo src="Logo.png"></Logo>
           <SignInLabel>Email:</SignInLabel>
             <SignInInput type="email" ref={emailRef} />
           <SignInLabel>Password:</SignInLabel>
             <SignInInput type="password" ref={passwordRef} />
           <SignInButton type="submit" onClick={SignIn}>Sign In</SignInButton>
-        </SignInContainer>
+        </ContentContainer>
       </Page>   
     </>
   );
@@ -60,17 +66,6 @@ const Page = styled.div`
   align-items: center;
   height: 100vh;
   background-color: ${Colors.backgroundLight};
-`
-
-const SignInContainer = styled.div`
-  background-color: ${Colors.secondary};
-  color: ${Colors.text};
-  padding: 2vw;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 1vw;
-  align-items: center;
 `
 
 const SignInLabel = styled.label`

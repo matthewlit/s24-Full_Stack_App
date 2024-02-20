@@ -12,7 +12,7 @@ const Navbar = () => {
     <Container>
         {/* Logo */}
         <LogoContainer>
-        <Link href="/profile"><Logo src="Logo.png"></Logo></Link>
+          <Link href="/profile"><Logo src="Logo.png"></Logo></Link>
         </LogoContainer>
 
         {/* Navigation Buttons */}
@@ -44,7 +44,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1vw;
-  background-color: ${Colors.backgroundLight};
+  background-color: ${Colors.backgroundDark};
   position: fixed;
   height: 100%;
   overflow: auto;

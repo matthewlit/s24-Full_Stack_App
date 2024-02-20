@@ -1,16 +1,27 @@
 import Head from "next/head";
-import Image from "next/image";
 import { Inter } from "next/font/google";
 import styled from "styled-components";
 import Navbar from "@/components/Navbar"
-import Content from "@/components/Content";
+import Background from "@/components/Background";
 import Colors from "@/library/Colors"
+import { useStateContext } from "@/context/StateContext";
+import ContentContainer from "@/components/ContentContainer";
+import StatCounter from "@/components/StatCounter";
 
 const inter = Inter({ subsets: ["latin"] });
 const Page = styled.div``
 
 // Profile Page
 export default function Profile() {
+
+  // Get Username
+  const { user } = useStateContext();
+
+  // **TODO**: Get Stats
+  const episodesWatched = 0
+  const moviesWatched = 0
+  const hoursWatched = 0
+
   return (
     <>
       <Head>
@@ -20,11 +31,30 @@ export default function Profile() {
       </Head>
 
       <Page>
-        <Navbar></Navbar>
-        <Content>
-          
-        </Content>
+        <Navbar/>
+        <Background>
+          {/* Welcome */}
+          <ContentContainer>
+            <Welcome>Welcome, {user}!</Welcome>
+          </ContentContainer>
+          {/* Stats */}
+          <StatWrapper>
+            <StatCounter label="Episodes Watched:" value={episodesWatched}/>
+            <StatCounter label="Movies Watched:" value={moviesWatched}/>
+            <StatCounter label="Hours Watched:" value={hoursWatched}/>
+          </StatWrapper>
+        </Background>
       </Page>      
     </>
   );
 }
+
+const Welcome = styled.h1`
+  font-size: 3vw;
+`
+
+const StatWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`

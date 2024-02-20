@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import styled from "styled-components";
 import Navbar from "@/components/Navbar"
-import Content from "@/components/Content";
+import Background from "@/components/Background";
 import Colors from "@/library/Colors"
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,10 +20,10 @@ export default function Recommend() {
       </Head>
 
       <Page>
-        <Navbar></Navbar>
-        <Content>
+        <Navbar/>
+        <Background>
           
-        </Content>
+        </Background>
       </Page>      
     </>
   );
