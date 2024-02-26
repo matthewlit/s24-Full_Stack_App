@@ -56,24 +56,21 @@ const TVList = ({ data, emptyMessage = "Add To Watch List First!", added = false
     }
   };
 
+  const getProviders = async () => {
+    const request =
+      "https://api.themoviedb.org/3/" +
+      selectedItem.media_type +
+      "/" +
+      selectedItem.id +
+      "/watch/providers";
+    const data = await infoHandler(request);
+    setProviders(data.results);
+  };
+
   useEffect(() => {
-    const getProviders = async () => {
-      const request =
-        "https://api.themoviedb.org/3/" +
-        selectedItem.media_type +
-        "/" +
-        selectedItem.id +
-        "/watch/providers";
-      const data = await infoHandler(request);
-      console.log(data);
-      setProviders(data.results);
-      console.log(providers);
-    };
 
     if (selectedItem != null) getProviders();
   }, [selectedItem]);
-
-  console.log(data);
 
   return (
     <Container>

@@ -18,8 +18,6 @@ const Page = styled.div``;
 
 // Recommendations Page
 export default function Movies() {
-  // **TODO**: Search function
-  const Search = (query) => {};
 
   const [recommendedMovies, setRecommendedMovies] = useState([]);
   const [discoverResults, setDiscoverResults] = useState([]);
@@ -47,13 +45,27 @@ export default function Movies() {
       const data = await recommendHandler(request);
       let moviePromises = data.related.map(async (movie) => {
         const request = "https://api.themoviedb.org/3/movie/" + movie.tmdb_id;
-        const response = await infoHandler(request);
+        // const response = await infoHandler(request);
         return response;
       });
       const movies = await Promise.all(moviePromises);
 
       setRecommendedMovies(movies)
     }
+  };
+
+  const onSearch = async (query) => {
+    const request =
+      "https://api.themoviedb.org/3/search/movie?query=" + encodeURIComponent(query);
+    const data = await infoHandler(request);
+    setDiscoverResults(data.results);
+  };
+
+  const Search = (query) => {
+    if (query != "")
+      onSearch(query);
+    else
+      getTrending()
   };
 
   useEffect(() => {
@@ -76,7 +88,7 @@ export default function Movies() {
         <Background>
           <ContentContainer>
             <SearchBar
-              placeholder={"Search movies by title or genre..."}
+              placeholder={"Search movies by title..."}
               onSearch={Search}
             />
           </ContentContainer>

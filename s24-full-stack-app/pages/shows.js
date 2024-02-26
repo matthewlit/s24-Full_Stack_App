@@ -19,8 +19,6 @@ const Page = styled.div``;
 
 // Recommendations Page
 export default function Shows() {
-  // **TODO**: Search function
-  const Search = (query) => {};
 
   const [recommendedShows, setRecommendedShows] = useState([]);
   const [discoverResults, setDiscoverResults] = useState([]);
@@ -46,13 +44,27 @@ export default function Shows() {
       const data = await recommendHandler(request);
       let showPromises = data.related.map(async (show) => {
         const request = "https://api.themoviedb.org/3/tv/" + show.tmdb_id;
-        const response = await infoHandler(request);
+        // const response = await infoHandler(request);
         return response;
       });
       const shows = await Promise.all(showPromises);
 
       setRecommendedShows(shows)
     }
+  };
+
+  const onSearch = async (query) => {
+    const request =
+      "https://api.themoviedb.org/3/search/tv?query=" + encodeURIComponent(query);
+    const data = await infoHandler(request);
+    setDiscoverResults(data.results);
+  };
+
+  const Search = (query) => {
+    if (query != "")
+      onSearch(query);
+    else
+      getTrending()
   };
 
   useEffect(() => {
@@ -79,7 +91,7 @@ export default function Shows() {
         <Background>
           <ContentContainer>
             <SearchBar
-              placeholder={"Search shows by title or genre..."}
+              placeholder={"Search shows by title..."}
               onSearch={Search}
             />
           </ContentContainer>
