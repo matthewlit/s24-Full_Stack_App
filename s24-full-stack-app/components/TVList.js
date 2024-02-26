@@ -20,7 +20,7 @@ const TVList = ({ data, emptyMessage = "Error" }) => {
   useEffect(() => {
     const getProviders = async () => {
       const request =
-        "https://api.themoviedb.org/3/tv/" +
+        "https://api.themoviedb.org/3/" + selectedItem.media_type + "/" +
         selectedItem.id +
         "/watch/providers";
       const data = await infoHandler(request);
@@ -65,7 +65,7 @@ const TVList = ({ data, emptyMessage = "Error" }) => {
               <PopupText>
                 {Math.round(selectedItem.vote_average * 10) / 10 + "/10"}
               </PopupText>
-              {providers.US != undefined ? (
+              {providers.US != undefined && providers.US.flatrate != undefined? (
                 <>
                   <Title>Streaming Platforms:</Title>
                   <LogoWrapper>
