@@ -6,6 +6,8 @@ import { useRouter } from "next/router";
 import { auth } from "@/library/firebaseConfig.js";
 import { signOut } from "firebase/auth";
 import { useStateContext } from "@/context/StateContext";
+import { useEffect } from "react";
+
 
 // Nav Bar Component
 const Navbar = () => {
@@ -28,6 +30,7 @@ const Navbar = () => {
           console.error(`Error ${errorCode}: ${errorMessage}`);
         });
     }
+
 
   return (
     <Container>

@@ -3,11 +3,15 @@ import styled from "styled-components";
 import Colors from "../library/Colors";
 import { useState, useEffect } from "react";
 import infoHandler from "@/pages/api/getInfo";
+import { database } from "@/library/firebaseConfig";
+import { doc, arrayUnion, arrayRemove, updateDoc } from "firebase/firestore";
+import { useStateContext } from "@/context/StateContext";
 
 // Display list of shows or movies
-const TVList = ({ data, emptyMessage = "Error" }) => {
+const TVList = ({ data, emptyMessage = "Error", added = false }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [providers, setProviders] = useState([]);
+  const { user } = useStateContext();
 
   const openPopup = (item) => {
     setSelectedItem(item);
@@ -17,10 +21,47 @@ const TVList = ({ data, emptyMessage = "Error" }) => {
     setSelectedItem(null);
   };
 
+  const addToWatchList = (item) => {
+    // Add to user's watchList in database
+    if (user.uid != null) {
+      const docRef = doc(database, "watchLists/", "" + user.uid);
+      let fieldToUpdate = null;
+      if (item.media_type === "tv") {
+        fieldToUpdate = "shows";
+      } else if (item.media_type === "movie") {
+        fieldToUpdate = "movies";
+      }
+      updateDoc(docRef, {
+        [fieldToUpdate]: arrayUnion(item.id),
+      });
+    }
+  };
+
+  const removeFromWatchList = (item) => {
+    // Remove from user's watchList in database
+    if (user.uid != null) {
+      const docRef = doc(database, "watchLists/", "" + user.uid);
+      let fieldToUpdate = null;
+      if (item.name) {
+        fieldToUpdate = "shows";
+      } else if (item.title) {
+        fieldToUpdate = "movies";
+      }
+      updateDoc(docRef, {
+        [fieldToUpdate]: arrayRemove(item.id),
+      });
+      setSelectedItem(null);
+      const index = data.indexOf(item);
+      data.splice(index, 1);
+    }
+  };
+
   useEffect(() => {
     const getProviders = async () => {
       const request =
-        "https://api.themoviedb.org/3/" + selectedItem.media_type + "/" +
+        "https://api.themoviedb.org/3/" +
+        selectedItem.media_type +
+        "/" +
         selectedItem.id +
         "/watch/providers";
       const data = await infoHandler(request);
@@ -65,7 +106,9 @@ const TVList = ({ data, emptyMessage = "Error" }) => {
               <PopupText>
                 {Math.round(selectedItem.vote_average * 10) / 10 + "/10"}
               </PopupText>
-              {providers.US != undefined && providers.US.flatrate != undefined? (
+              {providers != undefined &&
+              providers.US != undefined &&
+              providers.US.flatrate != undefined ? (
                 <>
                   <Title>Streaming Platforms:</Title>
                   <LogoWrapper>
@@ -81,6 +124,15 @@ const TVList = ({ data, emptyMessage = "Error" }) => {
                 <></>
               )}
             </InfoWrapper>
+            {added === false ? (
+              <NavButton onClick={() => addToWatchList(selectedItem)}>
+                Add To WatchList
+              </NavButton>
+            ) : (
+              <NavButton onClick={() => removeFromWatchList(selectedItem)}>
+                Remove From WatchList
+              </NavButton>
+            )}
             <NavButton onClick={closePopup}>Close</NavButton>
           </PopupContent>
         </Popup>
@@ -107,6 +159,7 @@ const Image = styled.img`
   width: 10vw;
   height: 15vw;
   border-radius: 1vw;
+  margin-bottom: 1vw;
 `;
 
 const Title = styled.h3`
@@ -126,7 +179,7 @@ const NoItem = styled.h2`
 
 const NavButton = styled.button`
   background-color: ${Colors.accentDark};
-  margin: 1vw;
+  margin-bottom: 1vw;
   color: ${Colors.text};
   width: fit-content;
   padding: 0.5vw;
