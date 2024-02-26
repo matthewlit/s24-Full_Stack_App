@@ -15,17 +15,7 @@ const Page = styled.div``;
 export default function WatchList() {
   // **TODO**: Get Users Shows from database
   let shows = [];
-  shows = [
-    // { id: 1, image: "Logo.png", title: "Show_1" },
-    // { id: 2, image: "Logo.png", title: "Show_2" },
-    // { id: 3, image: "Logo.png", title: "Show_3" },
-  ];
   let movies = [];
-  movies = [
-    { id: 1, image: "Logo.png", title: "Test_Movie_1" },
-    { id: 2, image: "Logo.png", title: "Test_Movie_2" },
-    { id: 3, image: "Logo.png", title: "Test_Movie_3" },
-  ];
 
   // **TODO**: Search function
   const Search = (query) => {};

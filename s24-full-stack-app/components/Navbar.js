@@ -58,7 +58,7 @@ const Navbar = () => {
 
       {/* Sign Out Button */}
       <SignOutButtonContainer>
-          <NavButton onClick={SignOut}>Sign Out</NavButton>
+          <NavButton onClick={SignOut} active={false}>Sign Out</NavButton>
       </SignOutButtonContainer>
     </Container>
   );

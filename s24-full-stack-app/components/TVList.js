@@ -1,11 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import Colors from "../library/Colors";
-import Link from "next/link";
 import { useState } from "react";
 
 // Display list of shows or movies
-const TVList = ({ data = [], emptyMessage = "Error: No Items" }) => {
+const TVList = ({ data, emptyMessage = "Error" }) => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   const openPopup = (item) => {
@@ -16,34 +15,33 @@ const TVList = ({ data = [], emptyMessage = "Error: No Items" }) => {
     setSelectedItem(null);
   };
 
+  console.log(data);
+
   return (
     <Container>
-      {data.length === 0 ? (
-        <NoItem>{emptyMessage}</NoItem>
-      ) : (
+      {data.length === 0 ? 
+        <NoItem>{emptyMessage}</NoItem> : 
         data.map((item) => (
           <Item key={item.id}>
-            <Image src={item.image} />
-            <Title>{item.title}</Title>
+            <Image src={'http://image.tmdb.org/t/p/w500' + item.poster_path} />
             <NavButton onClick={() => openPopup(item)}>More Info</NavButton>
           </Item>
         ))
-      )}
+      }
       {selectedItem && (
         <Popup>
           <PopupContent>
+            <BackDropImage src={'http://image.tmdb.org/t/p/w500' + selectedItem.backdrop_path} />
             <InfoWrapper>
-              <Image src={selectedItem.image} />
               <Title>Title:</Title>
-                <PopupText>{selectedItem.title}</PopupText>
+                <PopupText>{selectedItem.title ? selectedItem.title : selectedItem.name}</PopupText>
               <Title>Description:</Title>
-                <PopupText>temp{selectedItem.description}</PopupText>
+                <PopupText>{selectedItem.overview}</PopupText>
               <Title>Rating:</Title>
-                <PopupText>temp{selectedItem.rating}</PopupText>
+                <PopupText>{Math.round(selectedItem.vote_average*10)/10 + '/10'}</PopupText>
               <Title>Streaming Platforms:</Title>
-                <PopupText>temp{selectedItem.platforms}</PopupText>
+                <PopupText>{selectedItem.platforms}</PopupText>
             </InfoWrapper>
-            <NavButton>Remove From Watched</NavButton>
             <NavButton onClick={closePopup}>Close</NavButton>
           </PopupContent>
         </Popup>
@@ -56,6 +54,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   background-color: ${Colors.secondary};
+  overflow: auto;
 `
 
 const Item = styled.div`
@@ -66,12 +65,13 @@ const Item = styled.div`
 `
 
 const Image = styled.img`
-  width: 7.5vw;
-  border-radius: 5vw;
+  width: 10vw;
+  height: 15vw;
+  border-radius: 1vw;
 `
 
 const Title = styled.h3`
-  margin-top: 1vw;
+  margin: 1vw;
   font-size: 1vw;
   font-weight: bold;
 `
@@ -87,7 +87,7 @@ const NoItem = styled.h2`
 
 const NavButton = styled.button`
   background-color: ${Colors.accentDark};
-  margin: 0.5vw;
+  margin: 1vw;
   color: ${Colors.text};
   width: fit-content;
   padding: 0.5vw;
@@ -113,6 +113,7 @@ const Popup = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: auto;
 `
 
 const PopupContent = styled.div`
@@ -122,17 +123,27 @@ const PopupContent = styled.div`
   padding: 1vw;
   border-radius: 2.5vw;
   align-items: center;
+  width: 30%;
+  margin-top: 5vw;
+  margin-bottom: 1vw;
 `
 
 const InfoWrapper = styled.div`
-  align-items: center;
   display: flex;
   flex-direction: column;
-  margin: 5vw;
+  margin: 1vw;
 `
 
 const PopupText = styled.p`
   font-size: 1vw;
+  margin-left: 2vw;
+`
+
+const BackDropImage = styled.img`
+  width: 75%;
+  border-radius: 1vw;
+  border-style: solid;
+  box-shadow: 2px 2px 5px ${Colors.accentLight};
 `
 
 export default TVList;

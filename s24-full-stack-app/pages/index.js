@@ -103,19 +103,19 @@ const Page = styled.div`
   align-items: center;
   height: 100vh;
   background-color: ${Colors.backgroundLight};
-`;
+`
 
 const SignInWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
+`
 
 const SignInLabel = styled.label`
   font-size: 1.25vw;
   text-align: center;
-`;
+`
 
 const SignInInput = styled.input`
   margin: 0.5vw;
@@ -123,7 +123,7 @@ const SignInInput = styled.input`
   font-size: 1vw;
   border-radius: 0.5vw;
   border: None;
-`;
+`
 
 const SignInButton = styled.button`
   background-color: ${Colors.accentDark};
@@ -140,9 +140,9 @@ const SignInButton = styled.button`
   &:hover {
     background-color: ${Colors.accentLight};
   }
-`;
+`
 
 const Logo = styled.img`
   width: 10vw;
   margin: 1vw;
-`;
+`
