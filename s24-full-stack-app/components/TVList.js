@@ -4,11 +4,11 @@ import Colors from "../library/Colors";
 import { useState, useEffect } from "react";
 import infoHandler from "@/pages/api/getInfo";
 import { database } from "@/library/firebaseConfig";
-import { doc, arrayUnion, arrayRemove, updateDoc } from "firebase/firestore";
+import { doc, arrayUnion, arrayRemove, updateDoc  } from "firebase/firestore";
 import { useStateContext } from "@/context/StateContext";
 
 // Display list of shows or movies
-const TVList = ({ data, emptyMessage = "Error", added = false }) => {
+const TVList = ({ data, emptyMessage = "Add To Watch List First!", added = false }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [providers, setProviders] = useState([]);
   const { user } = useStateContext();
@@ -25,14 +25,14 @@ const TVList = ({ data, emptyMessage = "Error", added = false }) => {
     // Add to user's watchList in database
     if (user.uid != null) {
       const docRef = doc(database, "watchLists/", "" + user.uid);
-      let fieldToUpdate = null;
-      if (item.media_type === "tv") {
+      let fieldToUpdate = null
+      if (item.name) {
         fieldToUpdate = "shows";
-      } else if (item.media_type === "movie") {
+      } else if (item.title) {
         fieldToUpdate = "movies";
       }
       updateDoc(docRef, {
-        [fieldToUpdate]: arrayUnion(item.id),
+        [fieldToUpdate]: arrayUnion(item.id)
       });
     }
   };
@@ -41,18 +41,18 @@ const TVList = ({ data, emptyMessage = "Error", added = false }) => {
     // Remove from user's watchList in database
     if (user.uid != null) {
       const docRef = doc(database, "watchLists/", "" + user.uid);
-      let fieldToUpdate = null;
+      let fieldToUpdate = null
       if (item.name) {
         fieldToUpdate = "shows";
       } else if (item.title) {
         fieldToUpdate = "movies";
       }
       updateDoc(docRef, {
-        [fieldToUpdate]: arrayRemove(item.id),
+        [fieldToUpdate]: arrayRemove(item.id)
       });
       setSelectedItem(null);
-      const index = data.indexOf(item);
-      data.splice(index, 1);
+      const index = data.indexOf(item)
+      data.splice(index,1);
     }
   };
 
@@ -160,6 +160,7 @@ const Image = styled.img`
   height: 15vw;
   border-radius: 1vw;
   margin-bottom: 1vw;
+  box-shadow: 2px 2px 5px ${Colors.primary};
 `;
 
 const Title = styled.h3`

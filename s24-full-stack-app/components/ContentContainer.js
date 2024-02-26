@@ -10,7 +10,7 @@ const Container = styled.div`
   background-color: ${Colors.secondary};
   color: ${Colors.text};
   padding: 2vw;
-  border-radius: 10px;
+  border-radius: 2.5vw;
   margin: 2.5vw;
   display: flex;
   flex-direction: column;

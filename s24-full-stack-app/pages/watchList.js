@@ -3,27 +3,23 @@ import { Inter } from "next/font/google";
 import styled from "styled-components";
 import Navbar from "@/components/Navbar";
 import Background from "@/components/Background";
-import SearchBar from "@/components/SearchBar";
 import ContentContainer from "@/components/ContentContainer";
 import TVList from "@/components/TVList";
 import { useState, useEffect } from "react";
 import infoHandler from "@/pages/api/getInfo";
 import { database } from "@/library/firebaseConfig";
-import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { useStateContext } from "@/context/StateContext";
+import Colors from "../library/Colors";
 
 const inter = Inter({ subsets: ["latin"] });
 const Page = styled.div``;
 
 // Watch List Page
 export default function WatchList() {
-  // **TODO**: Get Users Shows from database
   const [shows, setShows] = useState([]);
   const [movies, setMovies] = useState([]);
   const { user } = useStateContext();
-
-  // **TODO**: Search function
-  const Search = (query) => {};
 
   async function getUserData() {
     const docRef = doc(database, "watchLists/" + user.uid);
@@ -67,12 +63,9 @@ export default function WatchList() {
       <Page>
         <Navbar />
         <Background>
-          <ContentContainer>
-            <SearchBar
-              placeholder={"Search your watched shows and movies..."}
-              onSearch={Search}
-            />
-          </ContentContainer>
+          <HeaderWrapper>
+            <Header>Your Watch List</Header>
+            </HeaderWrapper>
           <ContentContainer>
             <Title>Watched Shows:</Title>
             <TVList
@@ -98,3 +91,21 @@ export default function WatchList() {
 const Title = styled.h1`
   text-align: center;
 `;
+
+const Header = styled.h1`
+  color: ${Colors.text};
+  text-align: center;
+  font-size: 4vw;
+  margin: 2vw;
+`
+
+const HeaderWrapper = styled.div`
+  background-color: ${Colors.secondary};
+  border-radius: 5vw;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2vw;
+  box-shadow: 2px 2px 5px ${Colors.accentLight};
+  width: fit-content;
+  display: flex;
+`
