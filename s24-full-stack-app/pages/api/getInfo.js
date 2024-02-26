@@ -1,3 +1,9 @@
+/**************************************************************************
+  File: getInfo.js
+  Author: Matthew Kelleher
+  Description: Handles all TMDB API requests
+**************************************************************************/
+
 export default async function handler(req) {
 
   const options = {

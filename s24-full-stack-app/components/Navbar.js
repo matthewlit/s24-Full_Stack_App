@@ -6,31 +6,35 @@ import { useRouter } from "next/router";
 import { auth } from "@/library/firebaseConfig.js";
 import { signOut } from "firebase/auth";
 import { useStateContext } from "@/context/StateContext";
-import { useEffect } from "react";
 
+/**************************************************************************
+  File: Navbar.js
+  Author: Matthew Kelleher
+  Description: Nav bar component
+**************************************************************************/
 
 // Nav Bar Component
 const Navbar = () => {
   const router = useRouter();
 
-    const { setUser } = useStateContext();
+  const { setUser } = useStateContext();
 
-    // Run when sign out button clicked
-    function SignOut() {
-      // Sign In
-      signOut(auth).then(() => {
-          // Signed out
-          setUser({uid: null, email: "None"});
-          router.push("/");
-        })
-        .catch((error) => {
-          // Handle error
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.error(`Error ${errorCode}: ${errorMessage}`);
-        });
-    }
-
+  // Run when sign out button clicked
+  function SignOut() {
+    // Sign In
+    signOut(auth)
+      .then(() => {
+        // Signed out
+        setUser({ uid: null, email: "None" });
+        router.push("/");
+      })
+      .catch((error) => {
+        // Handle error
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(`Error ${errorCode}: ${errorMessage}`);
+      });
+  }
 
   return (
     <Container>
@@ -61,7 +65,9 @@ const Navbar = () => {
 
       {/* Sign Out Button */}
       <SignOutButtonContainer>
-          <NavButton onClick={SignOut} active={false}>Sign Out</NavButton>
+        <NavButton onClick={SignOut} active={false}>
+          Sign Out
+        </NavButton>
       </SignOutButtonContainer>
     </Container>
   );

@@ -1,3 +1,9 @@
+/**************************************************************************
+  File: getRecommend.js
+  Author: Matthew Kelleher
+  Description: Handles all watchthis API requests
+**************************************************************************/
+
 export default async function handler(req) {
   const options = {
     method: "GET",

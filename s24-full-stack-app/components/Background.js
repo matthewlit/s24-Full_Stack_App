@@ -2,6 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import Colors from "../library/Colors";
 
+/**************************************************************************
+  File: Background.js
+  Author: Matthew Kelleher
+  Description: Background of page div styled component
+**************************************************************************/
+
 const Background = ({ children }) => {
   return <Container>{children}</Container>;
 };

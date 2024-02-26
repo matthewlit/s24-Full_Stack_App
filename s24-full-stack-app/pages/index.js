@@ -1,20 +1,23 @@
 import Head from "next/head";
-import { Inter } from "next/font/google";
+// Components and APIs
 import styled from "styled-components";
+import ContentContainer from "@/components/ContentContainer";
 import Colors from "@/library/Colors";
-import { useRef } from "react";
+// Firebase
+import { auth } from "@/library/firebaseConfig.js";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { database } from "@/library/firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
+// React
 import { useStateContext } from "@/context/StateContext";
 import { useRouter } from "next/router";
-import ContentContainer from "@/components/ContentContainer";
-import { auth } from "@/library/firebaseConfig.js";
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
-import { database } from "@/library/firebaseConfig";
-import { collection, addDoc, doc, setDoc } from "firebase/firestore";
+import { useRef } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+/**************************************************************************
+  File: index.js
+  Author: Matthew Kelleher
+  Description: Handles all components and function for the sign in page
+**************************************************************************/
 
 // Sign In Page
 export default function Home() {
@@ -110,6 +113,8 @@ export default function Home() {
     </>
   );
 }
+
+// Styled components
 
 const Page = styled.div`
   display: flex;

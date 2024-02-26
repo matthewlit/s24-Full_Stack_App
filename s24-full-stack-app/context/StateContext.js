@@ -1,3 +1,9 @@
+/**************************************************************************
+  File: StateContext.js
+  Author: Matthew Kelleher
+  Description: Handles global user variable
+**************************************************************************/
+
 import React, { useState, createContext, useContext } from 'react'
 
 // Create Context

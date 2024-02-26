@@ -2,6 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import Colors from "../library/Colors";
 
+/**************************************************************************
+  File: StatCounter.js
+  Author: Matthew Kelleher
+  Description: State counter component to display given stat
+**************************************************************************/
+
 const StatCounter = ({ value, label }) => {
   return (
     <StatContainer>

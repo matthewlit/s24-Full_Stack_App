@@ -2,6 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import Colors from "../library/Colors";
 
+/**************************************************************************
+  File: ContentContainer.js
+  Author: Matthew Kelleher
+  Description: Container for page contents component
+**************************************************************************/
+
 const ContentContainer = ({ children }) => {
   return <Container>{children}</Container>;
 };

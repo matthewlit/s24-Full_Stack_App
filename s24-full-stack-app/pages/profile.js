@@ -1,37 +1,45 @@
 import Head from "next/head";
-import { Inter } from "next/font/google";
+// Components and APIs
 import styled from "styled-components";
 import Navbar from "@/components/Navbar";
 import Background from "@/components/Background";
-import { useStateContext } from "@/context/StateContext";
 import ContentContainer from "@/components/ContentContainer";
 import StatCounter from "@/components/StatCounter";
-import { useState, useEffect } from "react";
+// Firebase
 import { doc, getDoc } from "firebase/firestore";
 import { database } from "@/library/firebaseConfig";
-import infoHandler from "@/pages/api/getInfo";
+// React
+import { useStateContext } from "@/context/StateContext";
+import { useState, useEffect } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
-const Page = styled.div``;
+/**************************************************************************
+  File: profile.js
+  Author: Matthew Kelleher
+  Description: Handles all components and function for the profile page
+**************************************************************************/
 
 // Profile Page
 export default function Profile() {
-  // Get Username
+  // Initialize useState hooks
   const { user } = useStateContext();
-
   const [showsWatched, setShowsWatched] = useState(0);
   const [moviesWatched, setMoviesWatched] = useState(0);
 
+  // Gets stats for current user
   async function getStats() {
+    // Get user's data from database
     const docRef = doc(database, "watchLists/" + user.uid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const data = docSnap.data();
+
+      // Get the number of movies and shows in watch list
       setMoviesWatched(data.movies.length)
       setShowsWatched(data.shows.length)
     }
   }
 
+  // Get user stats on first render
   useEffect(() => {
     if (user != null) {
       getStats();
@@ -49,7 +57,7 @@ export default function Profile() {
       <Page>
         <Navbar />
         <Background>
-          {/* Welcome */}
+          {/* Welcome Message*/}
           <ContentContainer>
             <Welcome>Welcome, {user.email}!</Welcome>
           </ContentContainer>
@@ -63,6 +71,10 @@ export default function Profile() {
     </>
   );
 }
+
+// Styled components
+
+const Page = styled.div``;
 
 const Welcome = styled.h1`
   font-size: 3vw;

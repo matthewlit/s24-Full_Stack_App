@@ -3,8 +3,17 @@ import styled from "styled-components";
 import Colors from "../library/Colors";
 import { useRef } from "react";
 
+/**************************************************************************
+  File: SearchBar.js
+  Author: Matthew Kelleher
+  Description: Search Bar component
+**************************************************************************/
+
 const SearchBar = ({ placeholder, onSearch }) => {
+  // Ref to search bar contents
   const serachRef = useRef(null);
+
+  // Run when search button is clicked
   function Search() {
     const query = serachRef.current.value;
     onSearch(query);

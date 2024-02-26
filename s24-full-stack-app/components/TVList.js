@@ -4,58 +4,82 @@ import Colors from "../library/Colors";
 import { useState, useEffect } from "react";
 import infoHandler from "@/pages/api/getInfo";
 import { database } from "@/library/firebaseConfig";
-import { doc, arrayUnion, arrayRemove, updateDoc  } from "firebase/firestore";
+import { doc, arrayUnion, arrayRemove, updateDoc } from "firebase/firestore";
 import { useStateContext } from "@/context/StateContext";
 
+/**************************************************************************
+  File: TVList.js
+  Author: Matthew Kelleher
+  Description:  List given array of movies or shows with a pop up for more 
+                info and option to add or remove from watch list
+**************************************************************************/
+
 // Display list of shows or movies
-const TVList = ({ data, emptyMessage = "Add To Watch List First!", added = false }) => {
+const TVList = ({
+  data,
+  emptyMessage = "Add To Watch List First!",
+  added = false,
+}) => {
+  // Initialize useState hooks
   const [selectedItem, setSelectedItem] = useState(null);
   const [providers, setProviders] = useState([]);
   const { user } = useStateContext();
 
+  // Open popup when more info is clicked
   const openPopup = (item) => {
     setSelectedItem(item);
   };
 
+  // Close popup when more info is clicked
   const closePopup = () => {
     setSelectedItem(null);
   };
 
+  // Adds selected item to user's watchlist in database
   const addToWatchList = (item) => {
-    // Add to user's watchList in database
     if (user.uid != null) {
+      // Get user's watch list
       const docRef = doc(database, "watchLists/", "" + user.uid);
-      let fieldToUpdate = null
+      let fieldToUpdate = null;
       if (item.name) {
         fieldToUpdate = "shows";
       } else if (item.title) {
         fieldToUpdate = "movies";
       }
+      // Add to watched array
       updateDoc(docRef, {
-        [fieldToUpdate]: arrayUnion(item.id)
+        [fieldToUpdate]: arrayUnion(item.id),
       });
-    }
-  };
-
-  const removeFromWatchList = (item) => {
-    // Remove from user's watchList in database
-    if (user.uid != null) {
-      const docRef = doc(database, "watchLists/", "" + user.uid);
-      let fieldToUpdate = null
-      if (item.name) {
-        fieldToUpdate = "shows";
-      } else if (item.title) {
-        fieldToUpdate = "movies";
-      }
-      updateDoc(docRef, {
-        [fieldToUpdate]: arrayRemove(item.id)
-      });
+      // Close popup and remove from list
       setSelectedItem(null);
-      const index = data.indexOf(item)
-      data.splice(index,1);
+      const index = data.indexOf(item);
+      data.splice(index, 1);
     }
   };
 
+  // Removes selected item from user's watchlist in database
+  const removeFromWatchList = (item) => {
+    if (user.uid != null) {
+      // Get user's watch list
+      const docRef = doc(database, "watchLists/", "" + user.uid);
+      let fieldToUpdate = null;
+      if (item.name) {
+        fieldToUpdate = "shows";
+      } else if (item.title) {
+        fieldToUpdate = "movies";
+      }
+      // Remove from watched array
+      updateDoc(docRef, {
+        [fieldToUpdate]: arrayRemove(item.id),
+      });
+      // Close popup and remove from list
+      setSelectedItem(null);
+      const index = data.indexOf(item);
+      data.splice(index, 1);
+    }
+  };
+
+  // Get streaming providers for selected item from TMDB API
   const getProviders = async () => {
     const request =
       "https://api.themoviedb.org/3/" +
@@ -67,13 +91,14 @@ const TVList = ({ data, emptyMessage = "Add To Watch List First!", added = false
     setProviders(data.results);
   };
 
+  // Get streaming provider for item when selected
   useEffect(() => {
-
     if (selectedItem != null) getProviders();
   }, [selectedItem]);
 
   return (
     <Container>
+      {/* Display list of items */}
       {data.length === 0 ? (
         <NoItem>{emptyMessage}</NoItem>
       ) : (
@@ -84,6 +109,7 @@ const TVList = ({ data, emptyMessage = "Add To Watch List First!", added = false
           </Item>
         ))
       )}
+      {/* Display popup for selected item */}
       {selectedItem && (
         <Popup>
           <PopupContent>
@@ -121,6 +147,7 @@ const TVList = ({ data, emptyMessage = "Add To Watch List First!", added = false
                 <></>
               )}
             </InfoWrapper>
+            {/* Add or Remove from watch list */}
             {added === false ? (
               <NavButton onClick={() => addToWatchList(selectedItem)}>
                 Add To WatchList
@@ -130,6 +157,7 @@ const TVList = ({ data, emptyMessage = "Add To Watch List First!", added = false
                 Remove From WatchList
               </NavButton>
             )}
+            {/* Close popup */}
             <NavButton onClick={closePopup}>Close</NavButton>
           </PopupContent>
         </Popup>
@@ -137,6 +165,8 @@ const TVList = ({ data, emptyMessage = "Add To Watch List First!", added = false
     </Container>
   );
 };
+
+// Styled components
 
 const Container = styled.div`
   display: flex;
