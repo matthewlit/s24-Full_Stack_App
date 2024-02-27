@@ -45,22 +45,28 @@ export default function Movies() {
       const userData = docSnap.data();
 
       // Get ids of movies in user's watch list and pass them to watchthis API
-      const movieIdsString = userData.shows.join(",");
+      const movieIdsString = userData.movies.reverse().join(",");
+      console.log(movieIdsString);
       if (movieIdsString === "") return;
       const request =
         "https://watchthis.p.rapidapi.com/api/v1/movie?ids=" + movieIdsString;
-      // const data = await recommendHandler(request); // **Uncomment for recommendations**
+      const data = await recommendHandler(request);
 
       // Get info for recommended movies from TMDB API
       let moviePromises = data.related.map(async (movie) => {
-        const request = "https://api.themoviedb.org/3/movie/" + movie.tmdb_id;
-        const response = await infoHandler(request);
-        return response;
+        if (!userData.movies.includes(movie.tmdb_id)) {
+          const request = "https://api.themoviedb.org/3/movie/" + movie.tmdb_id;
+          const response = await infoHandler(request);
+          return response;
+        } else {
+          return undefined;
+        }
       });
 
       // Wait to all info is received and update movies array
       const movies = await Promise.all(moviePromises);
-      setRecommendedMovies(movies);
+      const validMovies = movies.filter(movie => movie !== undefined);
+      setRecommendedMovies(validMovies);
     }
   };
 

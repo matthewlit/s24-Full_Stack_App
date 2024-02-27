@@ -45,22 +45,27 @@ export default function Shows() {
       const userData = docSnap.data();
 
       // Get ids of shows in user's watch list and pass them to watchthis API
-      const showIdsString = userData.shows.join(",");
+      const showIdsString = userData.shows.reverse().join(",");
       if (showIdsString === "") return;
       const request =
         "https://watchthis.p.rapidapi.com/api/v1/tv?ids=" + showIdsString;
-      // const data = await recommendHandler(request); // **Uncomment for recommendations**
+      const data = await recommendHandler(request);
 
       // Get info for recommended shows from TMDB API
       let showPromises = data.related.map(async (show) => {
-        const request = "https://api.themoviedb.org/3/tv/" + show.tmdb_id;
-        const response = await infoHandler(request);
-        return response;
+        if (!userData.shows.includes(show.tmdb_id)) {
+          const request = "https://api.themoviedb.org/3/tv/" + show.tmdb_id;
+          const response = await infoHandler(request);
+          return response;
+        } else {
+          return undefined;
+        }
       });
 
       // Wait to all info is received and update show array
       const shows = await Promise.all(showPromises);
-      setRecommendedShows(shows);
+      const validShows = shows.filter(show => show !== undefined);
+      setRecommendedShows(validShows);
     }
   };
 
